@@ -13,7 +13,7 @@ function Mascot({ highlightedProperties, onPropertyClick }) {
       borderRadius="8px"
       width="300px"
     >
-      <Typography variant="h6" gutterBottom>Mascot</Typography>
+      <Typography variant="h6" gutterBottom>Discover Premium Properties</Typography>
       <List>
         {highlightedProperties.map((property) => (
           <ListItem

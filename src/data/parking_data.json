@@ -1,0 +1,266 @@
+[
+    {
+        "id": 1,
+        "latitude": 44.650566,
+        "longitude": -63.57832,
+        "parking_name": "Parking 1"
+    },
+    {
+        "id": 2,
+        "latitude": 44.64057,
+        "longitude": -63.578215,
+        "parking_name": "Parking 2"
+    },
+    {
+        "id": 3,
+        "latitude": 44.649648,
+        "longitude": -63.578481,
+        "parking_name": "Parking 3"
+    },
+    {
+        "id": 4,
+        "latitude": 44.686904,
+        "longitude": -63.580551,
+        "parking_name": "Parking 4"
+    },
+    {
+        "id": 5,
+        "latitude": 44.638133,
+        "longitude": -63.575914,
+        "parking_name": "Parking 5"
+    },
+    {
+        "id": 6,
+        "latitude": 44.645007,
+        "longitude": -63.574657,
+        "parking_name": "Parking 6"
+    },
+    {
+        "id": 7,
+        "latitude": 44.638398,
+        "longitude": -63.596559,
+        "parking_name": "Parking 7"
+    },
+    {
+        "id": 8,
+        "latitude": 44.651325,
+        "longitude": -63.591504,
+        "parking_name": "Parking 8"
+    },
+    {
+        "id": 9,
+        "latitude": 44.668139,
+        "longitude": -63.613921,
+        "parking_name": "Parking 9"
+    },
+    {
+        "id": 10,
+        "latitude": 44.637045,
+        "longitude": -63.578319,
+        "parking_name": "Parking 10"
+    },
+    {
+        "id": 11,
+        "latitude": 44.686904,
+        "longitude": -63.580551,
+        "parking_name": "Parking 11"
+    },
+    {
+        "id": 12,
+        "latitude": 44.65687,
+        "longitude": -63.64882,
+        "parking_name": "Parking 12"
+    },
+    {
+        "id": 13,
+        "latitude": 44.638133,
+        "longitude": -63.575914,
+        "parking_name": "Parking 13"
+    },
+    {
+        "id": 14,
+        "latitude": 44.651908,
+        "longitude": -63.593051,
+        "parking_name": "Parking 14"
+    },
+    {
+        "id": 15,
+        "latitude": 44.649836,
+        "longitude": -63.577913,
+        "parking_name": "Parking 15"
+    },
+    {
+        "id": 16,
+        "latitude": 44.652642,
+        "longitude": -63.580834,
+        "parking_name": "Parking 16"
+    },
+    {
+        "id": 17,
+        "latitude": 44.649164,
+        "longitude": -63.657096,
+        "parking_name": "Parking 17"
+    },
+    {
+        "id": 18,
+        "latitude": 44.637536,
+        "longitude": -63.570316,
+        "parking_name": "Parking 18"
+    },
+    {
+        "id": 19,
+        "latitude": 44.648733,
+        "longitude": -63.591747,
+        "parking_name": "Parking 19"
+    },
+    {
+        "id": 20,
+        "latitude": 44.639189,
+        "longitude": -63.570292,
+        "parking_name": "Parking 20"
+    },
+    {
+        "id": 21,
+        "latitude": 44.638133,
+        "longitude": -63.575914,
+        "parking_name": "Parking 21"
+    },
+    {
+        "id": 22,
+        "latitude": 44.650153,
+        "longitude": -63.623882,
+        "parking_name": "Parking 22"
+    },
+    {
+        "id": 23,
+        "latitude": 44.638133,
+        "longitude": -63.575914,
+        "parking_name": "Parking 23"
+    },
+    {
+        "id": 24,
+        "latitude": 44.649246,
+        "longitude": -63.577655,
+        "parking_name": "Parking 24"
+    },
+    {
+        "id": 25,
+        "latitude": 44.641261,
+        "longitude": -63.58474,
+        "parking_name": "Parking 25"
+    },
+    {
+        "id": 26,
+        "latitude": 44.647034,
+        "longitude": -63.593885,
+        "parking_name": "Parking 26"
+    },
+    {
+        "id": 27,
+        "latitude": 44.668636,
+        "longitude": -63.548669,
+        "parking_name": "Parking 27"
+    },
+    {
+        "id": 28,
+        "latitude": 44.64057,
+        "longitude": -63.578215,
+        "parking_name": "Parking 28"
+    },
+    {
+        "id": 29,
+        "latitude": 44.638133,
+        "longitude": -63.575914,
+        "parking_name": "Parking 29"
+    },
+    {
+        "id": 30,
+        "latitude": 44.584782,
+        "longitude": -63.586774,
+        "parking_name": "Parking 30"
+    },
+    {
+        "id": 31,
+        "latitude": 44.683973,
+        "longitude": -63.587432,
+        "parking_name": "Parking 31"
+    },
+    {
+        "id": 32,
+        "latitude": 44.652301,
+        "longitude": -63.580333,
+        "parking_name": "Parking 32"
+    },
+    {
+        "id": 33,
+        "latitude": 44.638133,
+        "longitude": -63.575914,
+        "parking_name": "Parking 33"
+    },
+    {
+        "id": 34,
+        "latitude": 44.638133,
+        "longitude": -63.575914,
+        "parking_name": "Parking 34"
+    },
+    {
+        "id": 35,
+        "latitude": 44.652086,
+        "longitude": -63.650203,
+        "parking_name": "Parking 35"
+    },
+    {
+        "id": 36,
+        "latitude": 44.648733,
+        "longitude": -63.591747,
+        "parking_name": "Parking 36"
+    },
+    {
+        "id": 37,
+        "latitude": 44.635152,
+        "longitude": -63.57847,
+        "parking_name": "Parking 37"
+    },
+    {
+        "id": 38,
+        "latitude": 44.648733,
+        "longitude": -63.591747,
+        "parking_name": "Parking 38"
+    },
+    {
+        "id": 39,
+        "latitude": 44.636887,
+        "longitude": -63.635788,
+        "parking_name": "Parking 39"
+    },
+    {
+        "id": 40,
+        "latitude": 44.634286,
+        "longitude": -63.595594,
+        "parking_name": "Parking 40"
+    },
+    {
+        "id": 41,
+        "latitude": 44.643706,
+        "longitude": -63.569772,
+        "parking_name": "Parking 41"
+    },
+    {
+        "id": 42,
+        "latitude": 44.637536,
+        "longitude": -63.570316,
+        "parking_name": "Parking 42"
+    },
+    {
+        "id": 43,
+        "latitude": 44.638133,
+        "longitude": -63.575914,
+        "parking_name": "Parking 43"
+    },
+    {
+        "id": 44,
+        "latitude": 44.586955,
+        "longitude": -63.593525,
+        "parking_name": "Parking 44"
+    }
+]

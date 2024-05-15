@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import Mascot from '../components/Mascot';
 import data from '../data/updated_test_data_with_builder.json';
+import parkingData from '../data/parking_data.json';  // Importing parking data
 
 // Custom icon for the markers
 const customIcon = new L.Icon({
@@ -24,6 +25,14 @@ const highlightedIcon = new L.Icon({
   iconSize: [35, 56], // Increased size
   iconAnchor: [17, 56],
   popupAnchor: [1, -34]
+});
+
+// Parking icon for the parking markers
+const parkingIcon = new L.Icon({
+  iconUrl: '/parking-icon.png', // Make sure this path is correct
+  iconSize: [40, 60], // Adjust the size as needed
+  iconAnchor: [20, 60],
+  popupAnchor: [0, -50]
 });
 
 const areas = ["Southend Halifax", "Central Halifax", "Clayton Park", "Rockingham", "Larry Uteck"];
@@ -58,6 +67,7 @@ function HomePage({ isAdmin }) {
   const [highlightedProperties, setHighlightedProperties] = useState([]);
   const [mapCenter, setMapCenter] = useState([44.651070, -63.582687]);
   const [mapZoom, setMapZoom] = useState(12);
+  const [nearestParking, setNearestParking] = useState(null); // State to store nearest parking
 
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
@@ -74,6 +84,10 @@ function HomePage({ isAdmin }) {
     });
   };
 
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    return Math.sqrt(Math.pow(lat2 - lat1, 2) + Math.pow(lon2 - lon1, 2));
+  };
+
   const handleMarkerClick = (clickedProperty) => {
     const southwestProperties = filteredData.filter(property =>
       property.Builder.toLowerCase() === "southwest properties" &&
@@ -83,19 +97,23 @@ function HomePage({ isAdmin }) {
 
     // Calculate distances and sort
     southwestProperties.sort((a, b) => {
-      const distanceA = Math.sqrt(
-        Math.pow(a.Latitude - clickedProperty.Latitude, 2) +
-        Math.pow(a.Longitude - clickedProperty.Longitude, 2)
-      );
-      const distanceB = Math.sqrt(
-        Math.pow(b.Latitude - clickedProperty.Latitude, 2) +
-        Math.pow(b.Longitude - clickedProperty.Longitude, 2)
-      );
+      const distanceA = calculateDistance(a.Latitude, a.Longitude, clickedProperty.Latitude, clickedProperty.Longitude);
+      const distanceB = calculateDistance(b.Latitude, b.Longitude, clickedProperty.Latitude, clickedProperty.Longitude);
       return distanceA - distanceB;
     });
 
     // Highlight the top 3 properties
     setHighlightedProperties(southwestProperties.slice(0, 3));
+
+    // Find the nearest parking spot
+    const nearest = parkingData.reduce((prev, curr) => {
+      const prevDistance = calculateDistance(prev.latitude, prev.longitude, clickedProperty.Latitude, clickedProperty.Longitude);
+      const currDistance = calculateDistance(curr.latitude, curr.longitude, clickedProperty.Latitude, clickedProperty.Longitude);
+      return (prevDistance < currDistance) ? prev : curr;
+    });
+
+    setNearestParking(nearest); // Set the nearest parking
+
     setMapCenter([clickedProperty.Latitude, clickedProperty.Longitude]);
     setMapZoom(14); // Zoom in when a marker is clicked
   };
@@ -109,6 +127,14 @@ function HomePage({ isAdmin }) {
     setMapZoom(14);
     if (markerRefs.current[property.id]) {
       markerRefs.current[property.id].openPopup();  // Open the popup programmatically
+    }
+  };
+
+  const handleParkingClick = (parking) => {
+    setMapCenter([parking.latitude, parking.longitude]);
+    setMapZoom(14);
+    if (markerRefs.current[parking.id]) {
+      markerRefs.current[parking.id].openPopup();  // Open the popup programmatically
     }
   };
 
@@ -167,12 +193,43 @@ function HomePage({ isAdmin }) {
                       <p>{`Bathrooms: ${property.Number_of_Bathrooms}`}</p>
                       <p>{`Area: ${property.area}`}</p>
                       <p>{`Builder: ${property.Builder}`}</p>
+                      {nearestParking && (
+                        <p>
+                          Nearest Parking: 
+                          <span 
+                            style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }} 
+                            onClick={() => handleParkingClick(nearestParking)}
+                          >
+                            {nearestParking.parking_name}
+                          </span>
+                        </p>
+                      )}
                       {isHighlighted && <p style={{ color: '#8B0000', fontWeight: 'bold' }}>{`Highlighted Property`}</p>}
                     </div>
                   </Popup>
                 </Marker>
               );
             })}
+            {nearestParking && (
+              <Marker
+                position={[nearestParking.latitude, nearestParking.longitude]}
+                icon={parkingIcon}
+                className="parking-marker"
+                ref={(el) => {
+                  if (el) {
+                    markerRefs.current[nearestParking.id] = el;
+                  }
+                }}
+              >
+                <Popup>
+                  <div>
+                    <h2>{`Parking Name: ${nearestParking.parking_name}`}</h2>
+                    <p>{`Latitude: ${nearestParking.latitude}`}</p>
+                    <p>{`Longitude: ${nearestParking.longitude}`}</p>
+                  </div>
+                </Popup>
+              </Marker>
+            )}
           </MapContainer>
         </Box>
         <Box flex={1} pl={2}>

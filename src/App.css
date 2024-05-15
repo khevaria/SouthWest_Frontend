@@ -106,3 +106,11 @@ html, body, #root {
   color: #1976D2;
   font-weight: bold;
 }
+
+.parking-marker {
+  position: relative;
+}
+
+.parking-marker .leaflet-marker-icon {
+  animation: pulse 1.5s infinite;
+}
