@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Box, Slider, TextField, MenuItem, FormControl, InputLabel, Select, Typography } from '@mui/material';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -27,6 +27,16 @@ const highlightedIcon = new L.Icon({
 
 const areas = ["Southend Halifax", "Central Halifax", "Clayton Park", "Rockingham", "Larry Uteck"];
 
+const MapCenterZoom = ({ center, zoom }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (center && zoom) {
+      map.setView(center, zoom);
+    }
+  }, [center, zoom, map]);
+  return null;
+};
+
 function HomePage({ isAdmin }) {
   const navigate = useNavigate();
 
@@ -44,6 +54,8 @@ function HomePage({ isAdmin }) {
     area: ''
   });
   const [highlightedProperties, setHighlightedProperties] = useState([]);
+  const [mapCenter, setMapCenter] = useState([44.651070, -63.582687]);
+  const [mapZoom, setMapZoom] = useState(12);
 
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
@@ -82,6 +94,12 @@ function HomePage({ isAdmin }) {
 
     // Highlight the top 3 properties
     setHighlightedProperties(southwestProperties.slice(0, 3));
+    setMapCenter([clickedProperty.Latitude, clickedProperty.Longitude]);
+    setMapZoom(14); // Zoom in when a marker is clicked
+  };
+
+  const handlePopupClose = () => {
+    setMapZoom(13); // Zoom out when the popup is closed
   };
 
   useEffect(() => {
@@ -90,15 +108,15 @@ function HomePage({ isAdmin }) {
     if (filters.rooms) {
       filtered = filtered.filter(property => property.Rooms === parseInt(filters.rooms));
     }
-    
+
     if (filters.bathrooms) {
       filtered = filtered.filter(property => property.Number_of_Bathrooms === parseFloat(filters.bathrooms));
     }
-    
+
     if (filters.area) {
       filtered = filtered.filter(property => property.area === filters.area);
     }
-    
+
     filtered = filtered.filter(property => property.Price >= filters.price[0] && property.Price <= filters.price[1]);
 
     setFilteredData(filtered);
@@ -108,7 +126,8 @@ function HomePage({ isAdmin }) {
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Box display="flex" justifyContent="space-between" p={2} flexGrow={1}>
         <Box flex={3}>
-          <MapContainer center={[44.651070, -63.582687]} zoom={12} style={{ height: '100%', width: '100%' }}>
+          <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '100%', width: '100%' }}>
+            <MapCenterZoom center={mapCenter} zoom={mapZoom} />
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -125,7 +144,7 @@ function HomePage({ isAdmin }) {
                   }}
                   className={isHighlighted ? 'highlighted-marker' : ''}
                 >
-                  <Popup>
+                  <Popup eventHandlers={{ remove: handlePopupClose }}>
                     <div>
                       <h2>{`Property ID: ${property.id}`}</h2>
                       <p>{`Price: ${property.Price} CAD`}</p>
