@@ -37,7 +37,6 @@
   }
 }
 
-
 html, body, #root {
   height: 100%;
   margin: 0;
@@ -53,20 +52,39 @@ html, body, #root {
   width: 100%;
 }
 
+.map-container {
+  flex-grow: 1;
+  height: 600px;
+}
+
 .filter-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 10px;
+  background-color: #f5f5f5;
+  flex-wrap: wrap;
 }
 
 .filter-item {
-  margin: 0 10px;
+  margin: 10px;
 }
 
-.footer {
-  padding: 20px;
-  margin-top: auto;
-  background-color: #f5f5f5;
-  text-align: center;
+.slider-container {
+  width: 100%;
+  left: 2%
+}
+
+.slider-container .MuiSlider-root {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.slider-container .MuiSlider-markLabel[data-index="0"] {
+  left: 5%;
+}
+
+.slider-container .MuiSlider-markLabel[data-index="1"] {
+  left: 95%;
 }

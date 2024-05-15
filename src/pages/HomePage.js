@@ -1,10 +1,21 @@
-// src/pages/HomePage.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Box, Slider, TextField, MenuItem, FormControl, InputLabel, Select, Typography } from '@mui/material';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import data from '../data/updated_test_data_with_builder.json';
+
+// Custom icon for the markers
+const customIcon = new L.Icon({
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
 
 const areas = ["Southend Halifax", "Central Halifax", "Clayton Park", "Rockingham", "Larry Uteck"];
 
@@ -70,7 +81,7 @@ function HomePage({ isAdmin }) {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             {filteredData.map(property => (
-              <Marker key={property.id} position={[property.Latitude, property.Longitude]}>
+              <Marker key={property.id} position={[property.Latitude, property.Longitude]} icon={customIcon}>
                 <Popup>
                   <div>
                     <h2>{`Property ID: ${property.id}`}</h2>
@@ -87,20 +98,37 @@ function HomePage({ isAdmin }) {
         <Box flex={1} pl={2}>
           <Box display="flex" flexDirection="column" gap={2}>
             <Typography variant="h6">Filters</Typography>
-            <Slider
-              value={filters.price}
-              onChange={handleSliderChange}
-              valueLabelDisplay="auto"
-              min={0}
-              max={5000}
-              step={100}
-              marks={[
-                { value: 0, label: '0 CAD' },
-                { value: 5000, label: '5000 CAD' }
-              ]}
-              name="price"
-              label="Rent"
-            />
+            <FormControl fullWidth>
+              <Typography variant="body2">Rent</Typography>
+              <Slider
+                value={filters.price}
+                onChange={handleSliderChange}
+                valueLabelDisplay="auto"
+                min={0}
+                max={5000}
+                step={100}
+                marks={[
+                  { value: 0, label: '0' },
+                  { value: 5000, label: '5000' }
+                ]}
+                name="price"
+                sx={{
+                  '& .MuiSlider-thumb': {
+                    color: '#1976D2', // Blue color
+                  },
+                  '& .MuiSlider-track': {
+                    color: '#1976D2', // Blue color
+                  },
+                  '& .MuiSlider-rail': {
+                    color: '#D3D3D3',
+                  },
+                  '& .MuiSlider-markLabel': {
+                    color: '#1976D2', // Blue color
+                  },
+                  marginBottom: '16px' // Add space below the slider to match other inputs
+                }}
+              />
+            </FormControl>
             <TextField
               label="Number of Rooms"
               name="rooms"
