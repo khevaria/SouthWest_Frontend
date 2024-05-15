@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Box, Slider, TextField, MenuItem, FormControl, InputLabel, Select, Typography } from '@mui/material';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import Mascot from '../components/Mascot';
 import data from '../data/updated_test_data_with_builder.json';
 
 // Custom icon for the markers
@@ -39,6 +40,7 @@ const MapCenterZoom = ({ center, zoom }) => {
 
 function HomePage({ isAdmin }) {
   const navigate = useNavigate();
+  const markerRefs = useRef({});  // Using a ref to store references to markers
 
   useEffect(() => {
     if (isAdmin) {
@@ -102,6 +104,14 @@ function HomePage({ isAdmin }) {
     setMapZoom(13); // Zoom out when the popup is closed
   };
 
+  const handlePropertyClickFromMascot = (property) => {
+    setMapCenter([property.Latitude, property.Longitude]);
+    setMapZoom(14);
+    if (markerRefs.current[property.id]) {
+      markerRefs.current[property.id].openPopup();  // Open the popup programmatically
+    }
+  };
+
   useEffect(() => {
     let filtered = data;
 
@@ -143,6 +153,11 @@ function HomePage({ isAdmin }) {
                     click: () => handleMarkerClick(property)
                   }}
                   className={isHighlighted ? 'highlighted-marker' : ''}
+                  ref={(el) => {
+                    if (el) {
+                      markerRefs.current[property.id] = el;
+                    }
+                  }}
                 >
                   <Popup eventHandlers={{ remove: handlePopupClose }}>
                     <div>
@@ -226,6 +241,10 @@ function HomePage({ isAdmin }) {
           </Box>
         </Box>
       </Box>
+      <Mascot
+        highlightedProperties={highlightedProperties}
+        onPropertyClick={handlePropertyClickFromMascot}
+      />
     </Box>
   );
 }
