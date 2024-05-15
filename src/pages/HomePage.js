@@ -17,6 +17,14 @@ const customIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
+// Highlighted icon for the markers (using the provided custom icon and increased size)
+const highlightedIcon = new L.Icon({
+  iconUrl: '/highlighted-icon.png', // Make sure this path is correct
+  iconSize: [35, 56], // Increased size
+  iconAnchor: [17, 56],
+  popupAnchor: [1, -34]
+});
+
 const areas = ["Southend Halifax", "Central Halifax", "Clayton Park", "Rockingham", "Larry Uteck"];
 
 function HomePage({ isAdmin }) {
@@ -35,6 +43,7 @@ function HomePage({ isAdmin }) {
     bathrooms: '',
     area: ''
   });
+  const [highlightedProperties, setHighlightedProperties] = useState([]);
 
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
@@ -49,6 +58,30 @@ function HomePage({ isAdmin }) {
       ...filters,
       price: newValue
     });
+  };
+
+  const handleMarkerClick = (clickedProperty) => {
+    const southwestProperties = filteredData.filter(property =>
+      property.Builder.toLowerCase() === "southwest properties" &&
+      property.area === clickedProperty.area &&
+      property.id !== clickedProperty.id
+    );
+
+    // Calculate distances and sort
+    southwestProperties.sort((a, b) => {
+      const distanceA = Math.sqrt(
+        Math.pow(a.Latitude - clickedProperty.Latitude, 2) +
+        Math.pow(a.Longitude - clickedProperty.Longitude, 2)
+      );
+      const distanceB = Math.sqrt(
+        Math.pow(b.Latitude - clickedProperty.Latitude, 2) +
+        Math.pow(b.Longitude - clickedProperty.Longitude, 2)
+      );
+      return distanceA - distanceB;
+    });
+
+    // Highlight the top 3 properties
+    setHighlightedProperties(southwestProperties.slice(0, 3));
   };
 
   useEffect(() => {
@@ -80,19 +113,32 @@ function HomePage({ isAdmin }) {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            {filteredData.map(property => (
-              <Marker key={property.id} position={[property.Latitude, property.Longitude]} icon={customIcon}>
-                <Popup>
-                  <div>
-                    <h2>{`Property ID: ${property.id}`}</h2>
-                    <p>{`Price: ${property.Price} CAD`}</p>
-                    <p>{`Rooms: ${property.Rooms}`}</p>
-                    <p>{`Bathrooms: ${property.Number_of_Bathrooms}`}</p>
-                    <p>{`Area: ${property.area}`}</p>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
+            {filteredData.map(property => {
+              const isHighlighted = highlightedProperties.some(highlightedProperty => highlightedProperty.id === property.id);
+              return (
+                <Marker
+                  key={property.id}
+                  position={[property.Latitude, property.Longitude]}
+                  icon={isHighlighted ? highlightedIcon : customIcon}
+                  eventHandlers={{
+                    click: () => handleMarkerClick(property)
+                  }}
+                  className={isHighlighted ? 'highlighted-marker' : ''}
+                >
+                  <Popup>
+                    <div>
+                      <h2>{`Property ID: ${property.id}`}</h2>
+                      <p>{`Price: ${property.Price} CAD`}</p>
+                      <p>{`Rooms: ${property.Rooms}`}</p>
+                      <p>{`Bathrooms: ${property.Number_of_Bathrooms}`}</p>
+                      <p>{`Area: ${property.area}`}</p>
+                      <p>{`Builder: ${property.Builder}`}</p>
+                      {isHighlighted && <p style={{ color: '#8B0000', fontWeight: 'bold' }}>{`Highlighted Property`}</p>}
+                    </div>
+                  </Popup>
+                </Marker>
+              );
+            })}
           </MapContainer>
         </Box>
         <Box flex={1} pl={2}>

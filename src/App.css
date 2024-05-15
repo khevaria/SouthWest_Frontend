@@ -73,7 +73,7 @@ html, body, #root {
 
 .slider-container {
   width: 100%;
-  left: 2%
+  left: 2%;
 }
 
 .slider-container .MuiSlider-root {
@@ -87,4 +87,22 @@ html, body, #root {
 
 .slider-container .MuiSlider-markLabel[data-index="1"] {
   left: 95%;
+}
+
+.highlighted-marker {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+}
+
+.highlighted-popup {
+  color: #1976D2;
+  font-weight: bold;
 }
